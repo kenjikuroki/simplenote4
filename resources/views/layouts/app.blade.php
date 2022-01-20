@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,6 +24,7 @@
     <link href="{{ '/css/utility.css' }}" rel="stylesheet">
     @yield('css')
 </head>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -44,32 +46,31 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                        @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                         @endguest
                     </ul>
                 </div>
@@ -77,38 +78,38 @@
         </nav>
 
         <main class="main">
-        @if(session('success'))
+            @if(session('success'))
             <div class="alert alert-success" role="alert">
-              {{ session('success') }}
+                {{ session('success') }}
             </div>
-        @endif
-          <div class="row" style='height: 92vh;'>
-            <div class="col-md-2 p-0">
-              <div class="card h-100">
-              <div class="card-header">タグ一覧</div>
-              <div class="card-body py-2 px-4">
-                <a class='d-block' href='/'>全て表示</a>
-       
-              </div>
-              </div>
-          </div>
-            <div class="col-md-4 p-0">
-              <div class="card h-100">
-                <div class="card-header d-flex">メモ一覧 <a class='ml-auto' href='/create'><i class="fas fa-plus-circle"></i></a></div>
-                <div class="card-body p-2">
-                   @foreach($memos AS $memo)
-                     <p>{{$memo['content']}}</p>
-                   @endFOreach
-       
+            @endif
+            <div class="row" style='height: 92vh;'>
+                <div class="col-md-2 p-0">
+                    <div class="card h-100">
+                        <div class="card-header">タグ一覧</div>
+                        <div class="card-body py-2 px-4">
+                            <a class='d-block' href='/'>全て表示</a>
+
+                        </div>
+                    </div>
                 </div>
-              </div>    
-            </div> <!-- col-md-3 -->
-            <div class="col-md-6 p-0">
-              @yield('content')
-            </div>
-          </div> <!-- row justify-content-center -->
+                <div class="col-md-4 p-0">
+                    <div class="card h-100">
+                        <div class="card-header d-flex">メモ一覧 <a class='ml-auto' href='/create'><i class="fas fa-plus-circle"></i></a></div>
+                        <div class="card-body p-2">
+                            @foreach($memos AS $memo)
+                               <a href="edit/{{ $memo['id'] }}">{{$memo['content']}}</a>
+                            @endFOreach
+                        </div>
+                    </div>
+                </div> <!-- col-md-3 -->
+                <div class="col-md-6 p-0">
+                    @yield('content')
+                </div>
+            </div> <!-- row justify-content-center -->
         </main>
     </div>
     @yield('footer')
 </body>
+
 </html>
